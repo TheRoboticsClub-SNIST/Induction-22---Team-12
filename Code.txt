@@ -1,0 +1,89 @@
+#include <LiquidCrystal_I2C.h>
+
+LiquidCrystal_I2C lcd(0x27,16,2);
+int ldr = A0;
+
+void setup()  
+ {  
+   Serial.begin(115200); // sensor buart rate  
+   pinMode(2,INPUT);  // IR Sensor output pin connected  
+   pinMode(3,INPUT);  // IR Sensor output pin connected  
+   pinMode(4,INPUT); 
+   pinMode(5,INPUT);
+   pinMode(8,OUTPUT); // LED PIN  
+   pinMode(9,OUTPUT); // LED PIN  
+   pinMode(10,OUTPUT); // LED PIN 
+   pinMode(11,OUTPUT);
+   pinMode(ldr,INPUT);
+
+    lcd.init();
+  lcd.clear();         
+  lcd.backlight();  
+
+  lcd.setCursor(2,0);
+   lcd.print("VEHICLE SPEED =");
+   lcd.setCursor(5,1);  
+   lcd.print("     KMPH");
+ 
+ }  
+ void loop()   
+ {  
+   int s1 = digitalRead(2); // IR Sensor Sensor output pin connected  
+   int s2 = digitalRead(3); // IR Sensor Sensor output pin connected  
+   int s3 = digitalRead(4); // IR Sensor Sensor output pin connected
+   int s4 = digitalRead(5);
+   int ldrStatus = analogRead(ldr);
+   Serial.println(s1); // see the value in serial mpnitor in Arduino IDE  
+   Serial.println(s2); // see the value in serial mpnitor in Arduino IDE  
+   Serial.println(s3); // see the value in serial mpnitor in Arduino IDE
+   Serial.println(s4);
+   Serial.println(ldrStatus);
+   digitalWrite(8,HIGH);
+   
+  if (ldrStatus <=20)
+  {
+  if(s1 == 0 )  
+  {  
+   digitalWrite(9,HIGH);  
+   delay(1000);
+  }  
+  else  
+  {  
+   digitalWrite(9,LOW);  
+  } 
+  if(s2 == 0 )  
+  {  
+   digitalWrite(10,HIGH);   
+   delay(1000); 
+  }  
+  else  
+  {  
+   digitalWrite(10,LOW);  // LED OFF  
+  }  
+  if(s3 == 0 )  
+  {  
+   digitalWrite(11,HIGH); // LED ON
+   delay(1000);
+  }  
+  else  
+  {  
+   digitalWrite(11,LOW); // LED OFF  
+  }
+    if(s4 == 0)
+  {
+    digitalWrite(12,HIGH);
+    delay(1000);
+  }
+  else
+  {
+    digitalWrite(12,LOW); 
+  }
+  }
+  else
+  {
+    digitalWrite(9,LOW);
+    digitalWrite(10,LOW); 
+    digitalWrite(11,LOW); 
+    digitalWrite(12,LOW); 
+  }
+ }
